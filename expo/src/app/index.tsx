@@ -11,7 +11,7 @@ const Index = (): JSX.Element => {
       </View>
       {['買い物', '筋トレ', '瞑想'].map((v) => {
         return (
-          <View style={styles.memoListItem}>
+          <View style={styles.memoListItem} key={v}>
             <View>
               <Text style={styles.memoListItemTitle}>{v}</Text>
               <Text style={styles.memoListItemDate}>
