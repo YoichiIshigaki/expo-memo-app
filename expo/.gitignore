@@ -36,3 +36,6 @@ yarn-error.*
 
 # lambda sam
 /lambda
+
+/config/firebase.json
+.env

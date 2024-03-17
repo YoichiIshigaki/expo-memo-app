@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Link, router } from 'expo-router';
+import { CHIIKAWA_USAGI_URL } from '../../infra/firebaseConfig';
 
 const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,19 @@ const Login = (): JSX.Element => {
     <View style={styles.container}>
       <View style={styles.inner}>
         <Text style={styles.title}>Login</Text>
+        {CHIIKAWA_USAGI_URL && (
+          <Image
+            source={{
+              uri: CHIIKAWA_USAGI_URL,
+            }}
+            style={{
+              width: 200,
+              height: 200,
+              alignSelf: 'center',
+              marginVertical: 20,
+            }}
+          />
+        )}
         <Input
           value={email}
           onChangeText={(text: string) => setEmail(text)}
