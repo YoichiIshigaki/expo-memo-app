@@ -1,23 +1,34 @@
+import { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Icon from '../../components/icon';
 
-import Header from '../../components/Header';
 import MemoListItem from '../../components/MemoListItem';
 import CircleButton from '../../components/CircleButton';
+import { router, useNavigation } from 'expo-router';
+import LogoutButton from '../../components/LogoutButton';
 
 const List = (): JSX.Element => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return <LogoutButton />;
+      },
+    });
+  }, []);
+
+  const handlePress = () => {
+    router.push('/memo/create');
+  };
   return (
     <View style={styles.container}>
-      <Header />
       {/* メモリスト */}
       {['買い物', '筋トレ', '瞑想'].map((v) => {
         return <MemoListItem title={v} key={v} />;
       })}
       {/*追加ボタン */}
-      <CircleButton>
-        <View>
-          <Icon {...{ name: 'plus', size: 40, color: '#fff' }} />
-        </View>
+      <CircleButton onPress={handlePress}>
+        <Icon {...{ name: 'plus', size: 40, color: '#fff' }} />
       </CircleButton>
     </View>
   );

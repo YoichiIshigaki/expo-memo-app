@@ -1,9 +1,22 @@
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput, type TextInputProps } from 'react-native';
 
-type Props = { value: string };
-
-const Input = ({ value }: Props): JSX.Element => {
-  return <TextInput style={styles.input} value={value} />;
+const Input = ({
+  value,
+  onChangeText,
+  keyboardType,
+  style,
+  ...props
+}: TextInputProps): JSX.Element => {
+  return (
+    <TextInput
+      {...props}
+      style={[styles.input, style]}
+      autoCapitalize="none"
+      keyboardType={keyboardType}
+      value={value}
+      onChangeText={onChangeText}
+    />
+  );
 };
 
 const styles = StyleSheet.create({
