@@ -1,15 +1,28 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { Link, router } from 'expo-router';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../infra/firebaseConfig';
 
 const Signup = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const handlePress = () => {
+
+  const handlePress = (email: string, password: string) => {
     // 会員登録
-    router.push('/memo/list');
+    console.log({ email, password });
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential.user.uid);
+        router.replace('/memo/list');
+      })
+      .catch((error) => {
+        const { code, message } = error;
+        console.log({ code, message });
+        Alert.alert('予期せぬエラーが発生しました！\nぷりゃ..ウラウラ');
+      });
   };
   return (
     <View style={styles.container}>
@@ -29,10 +42,10 @@ const Signup = (): JSX.Element => {
           placeholder="Password"
           textContentType="password"
         />
-        <Button label="Submit" onPress={handlePress} />
+        <Button label="Submit" onPress={() => handlePress(email, password)} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>Already registered?</Text>
-          <Link href="/auth/login" asChild>
+          <Link href="/auth/login" asChild replace>
             <TouchableOpacity>
               <Text style={styles.footerLink}>Log In</Text>
             </TouchableOpacity>

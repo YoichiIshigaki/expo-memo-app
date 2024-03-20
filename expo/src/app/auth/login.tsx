@@ -1,17 +1,30 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Alert } from 'react-native';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Link, router } from 'expo-router';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../infra/firebaseConfig';
+
 import { CHIIKAWA_USAGI_URL } from '../../infra/firebaseConfig';
 
 const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const handlePress = () => {
+  const handlePress = (email: string, password: string) => {
     // ログイン
-    router.replace('/memo/list');
+    console.log({ email, password });
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential.user.uid);
+        router.replace('/memo/list');
+      })
+      .catch((error) => {
+        const { code, message } = error;
+        console.log({ code, message });
+        Alert.alert('予期せぬエラーが発生しました！\nぷりゃ..ウラウラ');
+      });
   };
   return (
     <View style={styles.container}>
@@ -44,10 +57,10 @@ const Login = (): JSX.Element => {
           placeholder="Password"
           textContentType="password"
         />
-        <Button label="Submit" onPress={handlePress} />
+        <Button label="Submit" onPress={() => handlePress(email, password)} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>Not Registered?</Text>
-          <Link href="/auth/signup" asChild>
+          <Link href="/auth/signup" asChild replace>
             <TouchableOpacity>
               <Text style={styles.footerLink}>Sign Up Here!</Text>
             </TouchableOpacity>

@@ -8,7 +8,7 @@ import {
 type Props = {
   children: JSX.Element;
   style?: ViewStyle;
-  onPress?: () => void;
+  onPress?: () => void | Promise<void>;
 };
 
 export const CircleButton = (props: Props) => {
