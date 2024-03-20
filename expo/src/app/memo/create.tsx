@@ -7,18 +7,6 @@ import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db, auth } from '../../infra/firebaseConfig';
 import { useState } from 'react';
 
-// const handlePress = () => {
-//   addDoc(collection(db, 'memo_app_memos'), { bodyText: 'test' })
-//     .then((docRef) => {
-//       console.log('success! memo_id = ', docRef.id);
-//       router.back();
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       Alert.alert('error');
-//     });
-// };
-
 const Create = (): JSX.Element => {
   const [bodyText, setBodyText] = useState('');
   const handlePress = async (text: string): Promise<void> => {
@@ -31,7 +19,6 @@ const Create = (): JSX.Element => {
       );
       const docRef = await addDoc(ref, {
         bodyText: text,
-        // created_at: new Date(),
         created_at: Timestamp.fromDate(new Date()),
       });
       console.log('success! memo_id = ', docRef.id);
