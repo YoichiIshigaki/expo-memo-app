@@ -5,9 +5,9 @@ import Input from '../../components/Input';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Link, router } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../infra/firebaseConfig';
+import { auth } from '../../infra/firestore/firebaseConfig';
 
-import { CHIIKAWA_USAGI_URL } from '../../infra/firebaseConfig';
+import { CHIIKAWA_USAGI_URL } from '../../infra/firestore/firebaseConfig';
 
 const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');

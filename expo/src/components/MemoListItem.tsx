@@ -1,17 +1,35 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from './icon';
 import { Link } from 'expo-router';
+import { Memo } from '../infra/firestore/resources/memo';
 
-type Props = { title: string };
+type Props = { memo: Memo };
 
-export const MemoListItem = ({ title }: Props): JSX.Element => {
+const validateMemo = (bodyText: unknown, createdAt: unknown) => {
+  if (
+    bodyText !== null &&
+    createdAt !== null &&
+    typeof bodyText === 'string' &&
+    createdAt instanceof Date
+  ) {
+    return true;
+  }
+  return false;
+};
+
+const MemoListItem = ({
+  memo: { body_text: bodyText, created_at: createdAt },
+}: Props): JSX.Element | null => {
+  if (!validateMemo(bodyText, createdAt)) {
+    return null;
+  }
   return (
     <Link href="/memo/detail" asChild>
       <TouchableOpacity style={styles.memoListItem}>
         <View>
-          <Text style={styles.memoListItemTitle}>{title}</Text>
+          <Text style={styles.memoListItemTitle}>{bodyText}</Text>
           <Text style={styles.memoListItemDate}>
-            {new Date().toISOString()}
+            {createdAt.toLocaleString('ja-JP')}
           </Text>
         </View>
         <TouchableOpacity>

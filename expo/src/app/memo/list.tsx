@@ -1,7 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Icon from '../../components/icon';
 
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { db, auth } from '../../infra/firestore/firebaseConfig';
+import {
+  docToData,
+  type MemoDoc,
+  type Memo,
+} from '../../infra/firestore/resources/memo';
 import MemoListItem from '../../components/MemoListItem';
 import CircleButton from '../../components/CircleButton';
 import { router, useNavigation } from 'expo-router';
@@ -9,12 +16,29 @@ import LogoutButton from '../../components/LogoutButton';
 
 const List = (): JSX.Element => {
   const navigation = useNavigation();
+  const [memos, setMemos] = useState<Memo[]>([]);
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => {
-        return <LogoutButton />;
-      },
+      headerRight: <LogoutButton />,
     });
+  }, []);
+  useEffect(() => {
+    if (!auth.currentUser) return;
+    const ref = collection(db, `memo_app_users/${auth.currentUser!.uid}/memos`);
+    const q = query(ref, orderBy('created_at', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapShot) => {
+      const remoteMemos: Memo[] = [];
+      snapShot.forEach((doc) => {
+        // console.dir(
+        //   { id: doc.id, data: doc.data() },
+        //   { depth: null, maxArrayLength: null },
+        // );
+        remoteMemos.push(docToData(doc.id, doc.data() as MemoDoc));
+      });
+      setMemos(remoteMemos);
+    });
+
+    return unsubscribe;
   }, []);
 
   const handlePress = () => {
@@ -23,8 +47,8 @@ const List = (): JSX.Element => {
   return (
     <View style={styles.container}>
       {/* メモリスト */}
-      {['買い物', '筋トレ', '瞑想'].map((v) => {
-        return <MemoListItem title={v} key={v} />;
+      {memos.map((memo) => {
+        return <MemoListItem memo={memo} key={memo.id} />;
       })}
       {/*追加ボタン */}
       <CircleButton onPress={handlePress}>

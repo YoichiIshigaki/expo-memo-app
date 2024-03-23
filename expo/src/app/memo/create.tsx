@@ -4,7 +4,7 @@ import Icon from '../../components/icon';
 import KeyboardAvoidingView from '../../components/KeyboardAvoidingView';
 import { router } from 'expo-router';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { db, auth } from '../../infra/firebaseConfig';
+import { db, auth } from '../../infra/firestore/firebaseConfig';
 import { useState } from 'react';
 
 const Create = (): JSX.Element => {
@@ -18,7 +18,7 @@ const Create = (): JSX.Element => {
         `memo_app_users/${auth.currentUser.uid}/memos`,
       );
       const docRef = await addDoc(ref, {
-        bodyText: text,
+        body_text: text,
         created_at: Timestamp.fromDate(new Date()),
       });
       console.log('success! memo_id = ', docRef.id);

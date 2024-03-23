@@ -4,7 +4,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { Link, router } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../infra/firebaseConfig';
+import { auth } from '../../infra/firestore/firebaseConfig';
 
 const Signup = (): JSX.Element => {
   const [email, setEmail] = useState('');
