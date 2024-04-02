@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import Icon from '../../components/icon';
 
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
@@ -19,7 +19,7 @@ const List = (): JSX.Element => {
   const [memos, setMemos] = useState<Memo[]>([]);
   useEffect(() => {
     navigation.setOptions({
-      headerRight: <LogoutButton />,
+      headerRight: () => <LogoutButton />,
     });
   }, []);
   useEffect(() => {
@@ -29,10 +29,6 @@ const List = (): JSX.Element => {
     const unsubscribe = onSnapshot(q, (snapShot) => {
       const remoteMemos: Memo[] = [];
       snapShot.forEach((doc) => {
-        // console.dir(
-        //   { id: doc.id, data: doc.data() },
-        //   { depth: null, maxArrayLength: null },
-        // );
         remoteMemos.push(docToData(doc.id, doc.data() as MemoDoc));
       });
       setMemos(remoteMemos);
@@ -47,9 +43,10 @@ const List = (): JSX.Element => {
   return (
     <View style={styles.container}>
       {/* メモリスト */}
-      {memos.map((memo) => {
-        return <MemoListItem memo={memo} key={memo.id} />;
-      })}
+      <FlatList
+        data={memos}
+        renderItem={({ item }) => <MemoListItem memo={item} />}
+      />
       {/*追加ボタン */}
       <CircleButton onPress={handlePress}>
         <Icon {...{ name: 'plus', size: 40, color: '#fff' }} />
