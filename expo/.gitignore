@@ -39,3 +39,7 @@ yarn-error.*
 
 /config/firebase.json
 .env
+
+ios/
+
+android
