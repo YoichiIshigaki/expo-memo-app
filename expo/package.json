@@ -4,7 +4,7 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
-    "android": " && expo run:android",
+    "android": "emulator @Pixel_3a_API_34_extension_level_7_x86_64 && expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
     "eslint": "eslint",
