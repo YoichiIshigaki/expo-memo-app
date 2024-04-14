@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Text } from 'react-native';
 import Icon from '../../components/icon';
 
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
@@ -13,10 +13,12 @@ import MemoListItem from '../../components/MemoListItem';
 import CircleButton from '../../components/CircleButton';
 import { router, useNavigation } from 'expo-router';
 import LogoutButton from '../../components/LogoutButton';
+import { callFunction } from '../../infra/function/client';
 
 const List = (): JSX.Element => {
   const navigation = useNavigation();
   const [memos, setMemos] = useState<Memo[]>([]);
+  const [response, setResponse] = useState<{ message: string } | null>(null);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <LogoutButton />,
@@ -37,11 +39,25 @@ const List = (): JSX.Element => {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    callFunction<{ message: string }>('test.test').then((res) => {
+      console.log({ res });
+      setResponse(res);
+    });
+  }, []);
+
   const handlePress = () => {
     router.push('/memo/create');
   };
   return (
     <View style={styles.container}>
+      {response && (
+        <View style={{ backgroundColor: '#467FD3' }}>
+          <Text style={{ color: '#fff', textAlign: 'center' }}>
+            {response.message}
+          </Text>
+        </View>
+      )}
       {/* メモリスト */}
       <FlatList
         data={memos}
