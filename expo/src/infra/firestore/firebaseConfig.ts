@@ -1,4 +1,4 @@
-import firebaseConfig from '../../../../expo/config-submodule/project-config/vue3-tutorial/firebase';
+import firebaseConfig from '@sub-module-config/firebase';
 import { initializeApp } from 'firebase/app';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';

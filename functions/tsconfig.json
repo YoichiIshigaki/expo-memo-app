@@ -9,7 +9,10 @@
     "target": "es2017"
   },
   "compileOnSave": true,
-  "include": [
-    "src"
-  ]
+  "include": ["src"],
+  "paths": {
+    "@sub-module-config/*": [
+      "../config-submodule/project-config/vue3-tutorial/*"
+    ]
+  }
 }
