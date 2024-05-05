@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import { View, StyleSheet, FlatList, Text, Button } from 'react-native';
 import Icon from '../../components/icon';
 
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
@@ -15,10 +15,20 @@ import { router, useNavigation } from 'expo-router';
 import LogoutButton from '../../components/LogoutButton';
 import { callFunction } from '../../infra/function/client';
 
+const ComponentWithError = () => {
+  useEffect(() => {
+    throw new Error('This is a test error thrown by ComponentWithError.');
+  }, []);
+
+  return <View />;
+};
+
 const List = (): JSX.Element => {
   const navigation = useNavigation();
   const [memos, setMemos] = useState<Memo[]>([]);
   const [response, setResponse] = useState<{ message: string } | null>(null);
+  const [isErrorComponentVisible, setIsErrorComponentVisible] = useState(false);
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <LogoutButton />,
@@ -39,6 +49,7 @@ const List = (): JSX.Element => {
     return unsubscribe;
   }, []);
 
+  // call cloud function
   useEffect(() => {
     callFunction<{ message: string }>('test.test').then((res) => {
       console.log({ res });
@@ -51,6 +62,7 @@ const List = (): JSX.Element => {
   };
   return (
     <View style={styles.container}>
+      {/* cloud function response */}
       {response && (
         <View style={{ backgroundColor: '#467FD3' }}>
           <Text style={{ color: '#fff', textAlign: 'center' }}>
@@ -58,6 +70,11 @@ const List = (): JSX.Element => {
           </Text>
         </View>
       )}
+      <Button
+        title="Throw error"
+        onPress={() => setIsErrorComponentVisible(true)}
+      />
+      {isErrorComponentVisible && <ComponentWithError />}
       {/* メモリスト */}
       <FlatList
         data={memos}
