@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, Image, Alert } from 'react-native';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
+import Button from '@components/Button';
+import Input from '@components/Input';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Link, router } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';

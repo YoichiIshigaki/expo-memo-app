@@ -1,0 +1,9 @@
+[submodule "expo/config-submodule"]
+	path = expo/config-submodule
+	url = ssh://deepestred1968@gmail.com@source.developers.google.com:2022/p/scotify-dev/r/config-submodule
+[submodule "functions/config-submodule"]
+	path = functions/config-submodule
+	url = ssh://deepestred1968@gmail.com@source.developers.google.com:2022/p/scotify-dev/r/config-submodule
+[submodule "web/config-submodule"]
+	path = web/config-submodule
+	url = ssh://deepestred1968@gmail.com@source.developers.google.com:2022/p/scotify-dev/r/config-submodule

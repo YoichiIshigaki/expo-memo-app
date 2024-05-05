@@ -12,7 +12,7 @@
     "target": "es2017",
     "paths": {
       "@sub-module-config/*": [
-        "../config-submodule/project-config/vue3-tutorial/*"
+        "./config-submodule/project-config/vue3-tutorial/*"
       ]
     }
   },
