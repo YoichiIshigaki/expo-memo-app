@@ -7,24 +7,6 @@ import {
 } from 'firebase-admin/auth';
 import { auth } from '../firebaseApp';
 
-const sampleReq = {
-  displayName: 'string',
-  /**
-   * The user's primary email.
-   */
-  email: 'string',
-
-  password: 'string',
-  /**
-   * The user's primary phone number.
-   */
-  phoneNumber: 'string',
-  /**
-   * The user's photo URL.
-   */
-  photoURL: 'string',
-};
-
 export const create = async (req: CreateRequest): Promise<UserRecord> =>
   auth.createUser(req);
 
