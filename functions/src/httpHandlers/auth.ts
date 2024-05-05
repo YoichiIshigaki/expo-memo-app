@@ -25,7 +25,7 @@ type User = Pick<
   | 'disabled'
 >;
 
-const getParams = (req: Request, keys: string[]) => {
+const getParams = (req: Request, keys: string[]): Record<string, string> => {
   const values = Object.values(req.params);
   if (values.length !== keys.length) {
     throw new Error('invalid request params');
@@ -46,7 +46,7 @@ const toJson = (user: UserRecord): User => ({
   disabled: user.disabled,
 });
 
-const getHandle = async (
+const getHandler = async (
   req: Request,
   res: Response<User | User[]>
 ): Promise<void> => {
@@ -63,7 +63,7 @@ const getHandle = async (
   res.json(result.users.map((v) => toJson(v)));
 };
 
-const postHandle = async (
+const postHandler = async (
   req: Request,
   res: Response<User | { error: string }>
 ) => {
@@ -74,7 +74,7 @@ const postHandle = async (
   const user = await create(req.body);
   res.status(201).json(toJson(user));
 };
-const putHandle = async (
+const putHandler = async (
   req: Request,
   res: Response<User | { error: string }>,
   uid: string
@@ -92,7 +92,7 @@ const putHandle = async (
   res.status(201).json(toJson(user));
 };
 
-const deleteHandle = async (
+const deleteHandler = async (
   req: Request,
   res: Response<{ result: true } | { error: string }>,
   uid: string
@@ -126,16 +126,16 @@ export const handler = async (req: Request, res: Response): Promise<void> => {
 
     switch (req.method) {
       case 'GET':
-        await getHandle(req, res);
+        await getHandler(req, res);
         break;
       case 'POST':
-        await postHandle(req, res);
+        await postHandler(req, res);
         break;
       case 'PUT':
-        await putHandle(req, res, uid);
+        await putHandler(req, res, uid);
         break;
       case 'DELETE':
-        await deleteHandle(req, res, uid);
+        await deleteHandler(req, res, uid);
         break;
       default:
         res.status(405).json({ error: 'Method Not Allowed' });
