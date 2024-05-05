@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "outDir": "lib",
+    "outDir": "build",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "paths": {
+      "@sub-module-config/*": [
+        "../config-submodule/project-config/vue3-tutorial/*"
+      ]
+    }
   },
   "compileOnSave": true,
-  "include": ["src"],
-  "paths": {
-    "@sub-module-config/*": [
-      "../config-submodule/project-config/vue3-tutorial/*"
-    ]
-  }
+  "include": ["src"]
 }
