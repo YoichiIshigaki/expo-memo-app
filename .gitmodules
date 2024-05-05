@@ -1,3 +1,0 @@
-[submodule "config-submodule"]
-	path = config-submodule
-	url = ssh://deepestred1968@gmail.com@source.developers.google.com:2022/p/scotify-dev/r/config-submodule
