@@ -62,18 +62,31 @@ const List = (): JSX.Element => {
   };
   return (
     <View style={styles.container}>
-      {/* cloud function response */}
-      {response && (
-        <View style={{ backgroundColor: '#467FD3' }}>
-          <Text style={{ color: '#fff', textAlign: 'center' }}>
-            {response.message}
+      {process.env.NODE_ENV === 'development' && (
+        <View>
+          {/* cloud functions response */}
+          {response && (
+            <View style={{ backgroundColor: '#467FD3' }}>
+              <Text style={{ color: '#fff', textAlign: 'center' }}>
+                {response.message}
+              </Text>
+            </View>
+          )}
+          <Button
+            title="Throw error"
+            onPress={() => setIsErrorComponentVisible(true)}
+          />
+          <Button
+            title="go web view"
+            onPress={() => {
+              router.push('/web');
+            }}
+          />
+          <Text style={{ textAlign: 'center' }}>
+            NODE_ENV: {process.env.NODE_ENV}
           </Text>
         </View>
       )}
-      <Button
-        title="Throw error"
-        onPress={() => setIsErrorComponentVisible(true)}
-      />
       {isErrorComponentVisible && <ComponentWithError />}
       {/* メモリスト */}
       <FlatList

@@ -1,9 +1,9 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 import { onSnapshot, doc } from 'firebase/firestore';
-
 import CircleButton from '../../components/CircleButton';
 import Icon from '../../components/icon';
+import { TextBodyViewWithLink } from '@components/TextBodyViewWithLink';
 import { router, useLocalSearchParams } from 'expo-router';
 import { auth, db } from '../../infra/firestore/firebaseConfig';
 import {
@@ -48,7 +48,7 @@ const Detail = (): JSX.Element => {
         </Text>
       </View>
       <ScrollView style={styles.memoBody}>
-        <Text style={styles.memoBodyText}>{memo?.body_text}</Text>
+        <TextBodyViewWithLink textBody={memo?.body_text || ''} />
       </ScrollView>
       <CircleButton onPress={handlePress} style={{ top: 160 }}>
         <Icon {...{ name: 'pencil', size: 40, color: '#fff' }} />
