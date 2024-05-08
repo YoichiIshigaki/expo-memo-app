@@ -1,19 +1,37 @@
-import { textToLink } from './urlUtil';
+import { isEncodedUrl, textToLink } from './urlUtil';
 
-const text = `https://www.google.com aaa
-http://www.google.com aaa
-dndvdfjk
-https://www.google.com?q=漢字
-aaa https://www.google.com?q=あああ
-aaahttps://www.google.com?q=あああ aaa
-https://www.google.com?q=aaa aaa`;
+const text1 = 'https://www.google.com aaa';
+const text2 = `https://www.google.com aaa
+テスト
+http://www.google.com?q=漢字
+aaahttps://www.google.com?q=%E6%BC%A2%E5%AD%97`;
 
-const text2 = 'https://www.google.com aaa';
+describe('test textToLink', () => {
+  test('textToLink oneline', () => {
+    expect(textToLink(text1)).toStrictEqual([
+      { text: 'https://www.google.com', isLink: true },
+      { text: ' aaa', isLink: false },
+    ]);
+  });
+  test('textToLink multiline', () => {
+    expect(textToLink(text2)).toStrictEqual([
+      { text: 'https://www.google.com', isLink: true },
+      { text: ' aaa\nテスト\n', isLink: false },
+      { text: 'http://www.google.com?q=漢字', isLink: true },
+      { text: '\naaa', isLink: false },
+      { text: 'https://www.google.com?q=%E6%BC%A2%E5%AD%97', isLink: true },
+    ]);
+  });
+});
 
-test('link assertion', () => {
-  // 期待する結果を `expect` を使って指定します。
-  expect(textToLink(text2)).toStrictEqual([
-    { text: 'https://www.google.com', link: true },
-    { text: ' aaa', link: false },
-  ]);
+describe('test isEncodeUrl', () => {
+  test('isEncodeUrl false', () => {
+    expect(isEncodedUrl('https://google.com')).toBeFalsy();
+    expect(isEncodedUrl('https://google.com?q=あああ')).toBeFalsy();
+  });
+  test('isEncodeUrl true', () => {
+    expect(
+      isEncodedUrl('https://www.google.com?q=%E3%81%82%E3%81%82%E3%81%82'),
+    ).toBeTruthy();
+  });
 });
