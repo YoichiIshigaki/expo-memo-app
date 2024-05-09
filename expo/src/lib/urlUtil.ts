@@ -10,8 +10,6 @@ export const textToLink = (
   }));
 };
 
-// https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E8%AA%9E
-
 export const isEncodedUrl = (url: string): boolean => {
   const decodedUrl = decodeURI(url);
   return url !== decodedUrl;
