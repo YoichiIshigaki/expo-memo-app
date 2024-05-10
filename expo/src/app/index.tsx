@@ -1,17 +1,8 @@
-import { Redirect, router } from 'expo-router';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../infra/firestore/firebaseConfig';
-import { useEffect } from 'react';
+import { Redirect } from 'expo-router';
+import { useAuthCheck } from 'src/hooks/useAuthCheck';
 
-const Index = (): JSX.Element => {
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      console.dir(user, { depth: null });
-      if (user !== null) {
-        router.replace('/memo/list');
-      }
-    });
-  }, [onAuthStateChanged, auth]);
+const Index: React.FC = () => {
+  useAuthCheck();
   return <Redirect href="auth/login" />;
 };
 

@@ -1,5 +1,3 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
 # dependencies
 node_modules/
 
@@ -30,16 +28,15 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
 
 # typescript
 *.tsbuildinfo
 
-# lambda sam
-/lambda
-
-/config/firebase.json
-.env
-
+# ios
 ios/
 
-android
+# android
+android/
+*.aab
+*.apk

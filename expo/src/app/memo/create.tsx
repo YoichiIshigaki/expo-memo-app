@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 const Create = (): JSX.Element => {
   const [bodyText, setBodyText] = useState('');
-  const handlePress = async (text: string): Promise<void> => {
+  const handlePress = async (): Promise<void> => {
     if (!auth.currentUser) return;
     try {
       console.log(auth.currentUser.uid);
@@ -18,7 +18,7 @@ const Create = (): JSX.Element => {
         `memo_app_users/${auth.currentUser.uid}/memos`,
       );
       const docRef = await addDoc(ref, {
-        body_text: text,
+        body_text: bodyText,
         created_at: Timestamp.fromDate(new Date()),
       });
       console.log('success! memo_id = ', docRef.id);
@@ -39,7 +39,7 @@ const Create = (): JSX.Element => {
           value={bodyText}
         />
       </View>
-      <CircleButton onPress={async () => await handlePress(bodyText)}>
+      <CircleButton onPress={async () => await handlePress()}>
         <Icon {...{ name: 'check', size: 40, color: '#fff' }} />
       </CircleButton>
     </KeyboardAvoidingView>
