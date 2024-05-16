@@ -6,10 +6,10 @@
     "jsx": "react-jsx",
     "paths": {
       "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"],
-      "@components/*": ["./src/components/*"],
-      "@sub-module-config/*": [
-        "./config-submodule/project-config/vue3-tutorial/*"
-      ]
+      "@components/*": ["./src/components/*"]
+      // "@sub-module-config/*": [
+      //   "./config-submodule/project-config/vue3-tutorial/*"
+      // ]
     }
   }
 }
