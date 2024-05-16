@@ -2,6 +2,9 @@ import { Stack } from 'expo-router';
 import ErrorBoundary from 'react-native-error-boundary';
 import { View, Text, Button } from 'react-native';
 import { LogBox } from 'react-native';
+import { useAtom } from 'jotai';
+import { openMenuAtom } from 'src/store/atom';
+import Menu from '@components/Menu';
 
 LogBox.ignoreAllLogs();
 
@@ -28,6 +31,8 @@ const errorHandler = (error: Error, stackTrace: string) => {
 };
 
 const Layout = (): JSX.Element => {
+  const [openMenu] = useAtom(openMenuAtom);
+
   return (
     <ErrorBoundary FallbackComponent={CustomFallback} onError={errorHandler}>
       <Stack
@@ -44,6 +49,7 @@ const Layout = (): JSX.Element => {
           headerBackTitle: 'Back',
         }}
       />
+      {openMenu && <Menu />}
     </ErrorBoundary>
   );
 };
