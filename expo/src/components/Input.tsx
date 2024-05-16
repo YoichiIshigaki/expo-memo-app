@@ -1,12 +1,12 @@
 import { StyleSheet, TextInput, type TextInputProps } from 'react-native';
 
-const Input = ({
+const Input: React.FC<TextInputProps> = ({
   value,
   onChangeText,
   keyboardType,
   style,
   ...props
-}: TextInputProps): JSX.Element => {
+}) => {
   return (
     <TextInput
       {...props}

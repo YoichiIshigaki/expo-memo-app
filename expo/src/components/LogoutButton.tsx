@@ -3,7 +3,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../infra/firestore/firebaseConfig';
 import { router } from 'expo-router';
 
-const LogoutButton = (): JSX.Element => {
+const LogoutButton: React.FC = () => {
   const handlePress = () => {
     signOut(auth)
       .then(() => {

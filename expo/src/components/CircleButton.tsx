@@ -11,7 +11,7 @@ type Props = {
   onPress?: () => void | Promise<void>;
 };
 
-export const CircleButton = (props: Props) => {
+export const CircleButton: React.FC<Props> = (props) => {
   const { children, style, onPress } = props;
   return (
     <TouchableOpacity onPress={onPress} style={[styles.circleButton, style]}>
