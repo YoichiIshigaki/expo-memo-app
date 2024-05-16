@@ -25,18 +25,15 @@ const MemoListItem = ({
   if (!validateMemo(bodyText, createdAt)) {
     return null;
   }
-  const handlePress = (): void => {
+  const handleShare = (): void => {
     if (auth.currentUser === null) {
       return;
     }
-    // 権限エラー確認用
-    /*
-    const ref = doc(
-      db,
-      'memo_app_users/qvgcBAomlgaXtEVxeXSGsiHIlD02/memos',
-      id,
-    );
-    */
+  };
+  const handleDelete = (): void => {
+    if (auth.currentUser === null) {
+      return;
+    }
     const ref = doc(db, `memo_app_users/${auth.currentUser.uid}/memos`, id);
     Alert.alert('メモを削除します。', 'よろしいでしょうか？', [
       { text: 'キャンセル' },
@@ -63,8 +60,11 @@ const MemoListItem = ({
             {createdAt.toLocaleString('ja-JP')}
           </Text>
         </View>
-        <TouchableOpacity onPress={handlePress}>
+        <TouchableOpacity onPress={handleDelete}>
           <Icon {...{ name: 'delete', size: 32, color: '#b0b0b0' }} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleShare}>
+          <Icon {...{ name: 'share2', size: 32, color: '#b0b0b0' }} />
         </TouchableOpacity>
       </TouchableOpacity>
     </Link>
