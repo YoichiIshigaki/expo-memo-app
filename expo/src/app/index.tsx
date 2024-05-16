@@ -1,3 +1,4 @@
+import 'expo-router/entry';
 import { Redirect } from 'expo-router';
 import { useAuthCheck } from 'src/hooks/useAuthCheck';
 
