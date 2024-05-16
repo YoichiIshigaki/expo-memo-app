@@ -2,6 +2,6 @@ import { WebView } from 'react-native-webview';
 
 type WebViewProps = { url: string };
 
-export const WebViewComponent = ({ url }: WebViewProps) => (
+export const WebViewComponent: React.FC<WebViewProps> = ({ url }) => (
   <WebView source={{ uri: url }} style={{ flex: 1 }} />
 );
