@@ -11,11 +11,10 @@ import {
 } from '../../infra/firestore/resources/memo';
 import MemoListItem from '../../components/MemoListItem';
 import CircleButton from '../../components/CircleButton';
-import { router, useNavigation } from 'expo-router';
-import LogoutButton from '../../components/LogoutButton';
-import { callFunction } from '../../infra/function/client';
+import { router } from 'expo-router';
+import { useSetupNavigation } from '../../hooks/useSetupNavigation';
 
-const ComponentWithError = () => {
+const ComponentWithError: React.FC = () => {
   useEffect(() => {
     throw new Error('This is a test error thrown by ComponentWithError.');
   }, []);
@@ -23,17 +22,12 @@ const ComponentWithError = () => {
   return <View />;
 };
 
-const List = (): JSX.Element => {
-  const navigation = useNavigation();
+const List: React.FC = () => {
+  useSetupNavigation();
   const [memos, setMemos] = useState<Memo[]>([]);
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [isErrorComponentVisible, setIsErrorComponentVisible] = useState(false);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <LogoutButton />,
-    });
-  }, []);
   useEffect(() => {
     if (!auth.currentUser) return;
     const ref = collection(db, `memo_app_users/${auth.currentUser!.uid}/memos`);
@@ -50,12 +44,12 @@ const List = (): JSX.Element => {
   }, []);
 
   // call cloud function
-  useEffect(() => {
-    callFunction<{ message: string }>('test.test').then((res) => {
-      console.log({ res });
-      setResponse(res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   callFunction<{ message: string }>('test.test').then((res) => {
+  //     console.log({ res });
+  //     setResponse(res);
+  //   });
+  // }, []);
 
   const handlePress = () => {
     router.push('/memo/create');
