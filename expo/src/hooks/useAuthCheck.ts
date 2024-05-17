@@ -4,14 +4,14 @@ import { auth } from '../infra/firestore/firebaseConfig';
 import { useEffect, useRef } from 'react';
 
 export const useAuthCheck = (redirect = true): boolean => {
-  const isLogged = useRef(true);
+  const isLogged = useRef(false);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
         if (redirect) {
           router.replace('/memo/list');
         }
-        isLogged.current = false;
+        isLogged.current = true;
       }
     });
   }, [onAuthStateChanged, auth]);
