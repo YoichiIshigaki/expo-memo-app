@@ -42,7 +42,7 @@ const MemoListItem = ({
       {
         text: '削除する',
         style: 'destructive',
-        onPress: () => async () => {
+        onPress: async () => {
           try {
             await deleteDoc(ref);
           } catch (error) {
