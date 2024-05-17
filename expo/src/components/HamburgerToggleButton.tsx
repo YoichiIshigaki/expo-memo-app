@@ -1,32 +1,29 @@
-import { useEffect } from 'react';
 import { TouchableOpacity, StyleSheet, Image, View, Text } from 'react-native';
-import { useAtom } from 'jotai';
-import { openMenuAtom } from '../store/atom';
+import { type SetStateAction } from 'jotai';
 
-const HamburgerToggleButton: React.FC = () => {
-  const [, setOpenMenu] = useAtom(openMenuAtom);
+type SetAtom<Args extends unknown[], Result> = (...args: Args) => Result;
 
+export type HamburgerToggleButtonProps = {
+  setOpenMenu: SetAtom<[SetStateAction<boolean>], void>;
+};
+
+const HamburgerToggleButton: React.FC<HamburgerToggleButtonProps> = ({
+  setOpenMenu,
+}) => {
   const handlePress = () => {
     console.log('toggle pressed');
     setOpenMenu((v) => !v);
   };
-  useEffect(() => {
-    return () =>
-      setOpenMenu(() => {
-        return false;
-      });
-  }, [setOpenMenu]);
+
   return (
-    <>
-      <TouchableOpacity onPress={handlePress}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png',
-          }}
-        />
-      </TouchableOpacity>
-    </>
+    <TouchableOpacity onPress={handlePress}>
+      <Image
+        style={styles.image}
+        source={{
+          uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png',
+        }}
+      />
+    </TouchableOpacity>
   );
 };
 
