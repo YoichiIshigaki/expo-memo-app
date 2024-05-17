@@ -1,11 +1,11 @@
-import { View, TextInput, StyleSheet, Alert } from 'react-native';
-import CircleButton from '../../components/CircleButton';
-import Icon from '../../components/icon';
-import { router, useLocalSearchParams } from 'expo-router';
 import { useState, useEffect } from 'react';
+import { View, TextInput, StyleSheet, Alert } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
 import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
+import CircleButton from '@components/CircleButton';
+import Icon from '@components/icon';
+import KeyboardAvoidingView from '@components/KeyboardAvoidingView';
 import { auth, db } from '../../infra/firestore/firebaseConfig';
-import KeyboardAvoidingView from '../../components/KeyboardAvoidingView';
 
 const handlePress = async (id: string, text: string): Promise<void> => {
   if (auth.currentUser === null) return;
@@ -26,17 +26,15 @@ const handlePress = async (id: string, text: string): Promise<void> => {
   }
 };
 
-const Edit = (): JSX.Element => {
-  const id = String(useLocalSearchParams().id);
+const Edit: React.FC = () => {
+  const id = String(useLocalSearchParams<{ id: string }>().id);
   const [bodyText, setBodyText] = useState('');
-  // console.log(id);
 
   useEffect(() => {
     if (auth.currentUser === null) return;
     const ref = doc(db, `memo_app_users/${auth.currentUser.uid}/memos`, id);
     getDoc(ref)
       .then((docRef) => {
-        // console.log(docRef.data());
         setBodyText(docRef?.data()?.body_text);
       })
       .catch((error) => console.log(error));

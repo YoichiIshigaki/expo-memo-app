@@ -1,33 +1,29 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
-import { onSnapshot, doc } from 'firebase/firestore';
-import CircleButton from '../../components/CircleButton';
-import Icon from '../../components/icon';
-import { TextBodyViewWithLink } from '@components/TextBodyViewWithLink';
 import { router, useLocalSearchParams } from 'expo-router';
+import { onSnapshot, doc } from 'firebase/firestore';
+import CircleButton from '@components/CircleButton';
+import Icon from '@components/icon';
+import { TextBodyViewWithLink } from '@components/TextBodyViewWithLink';
 import { auth, db } from '../../infra/firestore/firebaseConfig';
 import {
   type Memo,
   type MemoDoc,
   docToData,
-} from '../../infra/firestore/resources/memo';
+} from '../../infra/firestore/feature/memo';
 
-export const validateId = (data: unknown): data is string =>
-  typeof data === 'string';
-
-const Detail = (): JSX.Element => {
-  const { id } = useLocalSearchParams();
-  console.log({ id });
+const Detail: React.FC = () => {
+  const id = String(useLocalSearchParams<{ id: string }>().id);
 
   const [memo, setMemo] = useState<Memo | null>(null);
 
   useEffect(() => {
-    if (auth.currentUser === null) return;
-    if (!validateId(id)) return;
+    if (auth.currentUser === null) {
+      return;
+    }
 
     const ref = doc(db, `memo_app_users/${auth.currentUser.uid}/memos`, id);
     const unsubscribe = onSnapshot(ref, (memoDoc) => {
-      // console.log(memoDoc.data());
       setMemo(docToData(memoDoc.id, memoDoc.data() as MemoDoc));
     });
     return unsubscribe;
