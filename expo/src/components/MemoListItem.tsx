@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import Icon from './icon';
 import { Link } from 'expo-router';
-import type { Memo } from '../infra/firestore/resources/memo';
+import Icon from './icon';
+import type { Memo } from '../infra/firestore/feature/memo';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../infra/firestore/firebaseConfig';
 
-type Props = { memo: Memo };
+type MemoListItemProps = { memo: Memo };
 
-const validateMemo = (bodyText: unknown, createdAt: unknown) => {
+const validateMemo = (bodyText: unknown, createdAt: unknown): boolean => {
   if (
     bodyText !== null &&
     createdAt !== null &&
@@ -21,26 +21,28 @@ const validateMemo = (bodyText: unknown, createdAt: unknown) => {
 
 const MemoListItem = ({
   memo: { body_text: bodyText, created_at: createdAt, id },
-}: Props): JSX.Element | null => {
+}: MemoListItemProps): JSX.Element | null => {
   if (!validateMemo(bodyText, createdAt)) {
     return null;
   }
   const handleShare = (): void => {
     if (auth.currentUser === null) {
-      return;
+      console.log('not login');
     }
   };
+
   const handleDelete = (): void => {
     if (auth.currentUser === null) {
       return;
     }
     const ref = doc(db, `memo_app_users/${auth.currentUser.uid}/memos`, id);
+
     Alert.alert('メモを削除します。', 'よろしいでしょうか？', [
       { text: 'キャンセル' },
       {
         text: '削除する',
         style: 'destructive',
-        onPress: async () => {
+        onPress: () => async () => {
           try {
             await deleteDoc(ref);
           } catch (error) {
@@ -51,6 +53,7 @@ const MemoListItem = ({
       },
     ]);
   };
+
   return (
     <Link href={{ pathname: '/memo/detail', params: { id } }} asChild>
       <TouchableOpacity style={styles.memoListItem}>

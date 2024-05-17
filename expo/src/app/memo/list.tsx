@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList, Text, Button } from 'react-native';
-import Icon from '../../components/icon';
-
+import { router } from 'expo-router';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
-import { db, auth } from '../../infra/firestore/firebaseConfig';
+import Icon from '@components/icon';
+import MemoListItem from '@components/MemoListItem';
+import CircleButton from '@components/CircleButton';
 import {
   docToData,
   type MemoDoc,
   type Memo,
-} from '../../infra/firestore/resources/memo';
-import MemoListItem from '../../components/MemoListItem';
-import CircleButton from '../../components/CircleButton';
-import { router } from 'expo-router';
+} from '../../infra/firestore/feature/memo';
+import { db, auth } from '../../infra/firestore/firebaseConfig';
 import { useSetupNavigation } from '../../hooks/useSetupNavigation';
+import { callFunction } from '../../infra/function/client';
 
 const ComponentWithError: React.FC = () => {
   useEffect(() => {
@@ -23,14 +23,15 @@ const ComponentWithError: React.FC = () => {
 };
 
 const List: React.FC = () => {
-  useSetupNavigation();
+  useSetupNavigation({});
+
   const [memos, setMemos] = useState<Memo[]>([]);
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [isErrorComponentVisible, setIsErrorComponentVisible] = useState(false);
 
   useEffect(() => {
-    if (!auth.currentUser) return;
-    const ref = collection(db, `memo_app_users/${auth.currentUser!.uid}/memos`);
+    if (auth.currentUser === null) return;
+    const ref = collection(db, `memo_app_users/${auth.currentUser.uid}/memos`);
     const q = query(ref, orderBy('created_at', 'desc'));
     const unsubscribe = onSnapshot(q, (snapShot) => {
       const remoteMemos: Memo[] = [];
@@ -44,14 +45,16 @@ const List: React.FC = () => {
   }, []);
 
   // call cloud function
-  // useEffect(() => {
-  //   callFunction<{ message: string }>('test.test').then((res) => {
-  //     console.log({ res });
-  //     setResponse(res);
-  //   });
-  // }, []);
+  useEffect(() => {
+    const fetchFunction = async (): Promise<void> => {
+      const res = await callFunction<{ message: string }>('test.test');
+      setResponse(res);
+    };
 
-  const handlePress = () => {
+    void fetchFunction();
+  }, []);
+
+  const handlePress = (): void => {
     router.push('/memo/create');
   };
   return (
@@ -68,7 +71,9 @@ const List: React.FC = () => {
           )}
           <Button
             title="Throw error"
-            onPress={() => setIsErrorComponentVisible(true)}
+            onPress={() => {
+              setIsErrorComponentVisible(true);
+            }}
           />
           <Button
             title="go web view"
@@ -87,7 +92,7 @@ const List: React.FC = () => {
         data={memos}
         renderItem={({ item }) => <MemoListItem memo={item} />}
       />
-      {/*追加ボタン */}
+      {/* 追加ボタン  */}
       <CircleButton onPress={handlePress}>
         <Icon {...{ name: 'plus', size: 40, color: '#fff' }} />
       </CircleButton>

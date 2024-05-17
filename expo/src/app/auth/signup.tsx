@@ -6,11 +6,11 @@ import { Link, router } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../infra/firestore/firebaseConfig';
 
-const Signup = (): JSX.Element => {
+const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handlePress = (email: string, password: string) => {
+  const handlePress = (email: string, password: string): void => {
     // 会員登録
     console.log({ email, password });
     createUserWithEmailAndPassword(auth, email, password)
@@ -30,19 +30,28 @@ const Signup = (): JSX.Element => {
         <Text style={styles.title}>Sign up</Text>
         <Input
           value={email}
-          onChangeText={(text: string) => setEmail(text)}
+          onChangeText={(text: string) => {
+            setEmail(text);
+          }}
           keyboardType="email-address"
           placeholder="Email"
           textContentType="emailAddress"
         />
         <Input
           value={password}
-          onChangeText={(text: string) => setPassword(text)}
+          onChangeText={(text: string) => {
+            setPassword(text);
+          }}
           secureTextEntry
           placeholder="Password"
           textContentType="password"
         />
-        <Button label="Submit" onPress={() => handlePress(email, password)} />
+        <Button
+          label="Submit"
+          onPress={() => {
+            handlePress(email, password);
+          }}
+        />
         <View style={styles.footer}>
           <Text style={styles.footerText}>Already registered?</Text>
           <Link href="/auth/login" asChild replace>

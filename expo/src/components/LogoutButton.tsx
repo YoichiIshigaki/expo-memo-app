@@ -1,10 +1,10 @@
 import { TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { signOut } from 'firebase/auth';
-import { auth } from '../infra/firestore/firebaseConfig';
 import { router } from 'expo-router';
+import { auth } from '../infra/firestore/firebaseConfig';
 
 const LogoutButton: React.FC = () => {
-  const handlePress = () => {
+  const handlePress = (): void => {
     signOut(auth)
       .then(() => {
         router.replace('/auth/login');

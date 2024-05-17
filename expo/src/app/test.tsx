@@ -1,6 +1,6 @@
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
-const test = () => {
+const Test: React.FC = () => {
   return (
     <View>
       <Text>test</Text>
@@ -13,4 +13,4 @@ const test = () => {
   );
 };
 
-export default test;
+export default Test;

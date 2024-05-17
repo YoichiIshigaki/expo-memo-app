@@ -13,7 +13,7 @@ const handlePress = async (id: string, text: string): Promise<void> => {
   try {
     const ref = doc(db, `memo_app_users/${auth.currentUser.uid}/memos`, id);
     const createdAt = (await getDoc(ref)).data()?.created_at;
-    setDoc(ref, {
+    await setDoc(ref, {
       body_text: text,
       created_at: createdAt,
       updated_at: Timestamp.fromDate(new Date()),
@@ -35,10 +35,12 @@ const Edit: React.FC = () => {
     const ref = doc(db, `memo_app_users/${auth.currentUser.uid}/memos`, id);
     getDoc(ref)
       .then((docRef) => {
-        setBodyText(docRef?.data()?.body_text);
+        setBodyText(docRef?.data()?.body_text as string);
       })
-      .catch((error) => console.log(error));
-  }, []);
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
 
   return (
     <KeyboardAvoidingView style={style.container}>
@@ -48,10 +50,16 @@ const Edit: React.FC = () => {
           multiline
           value={bodyText}
           autoFocus
-          onChangeText={(text) => setBodyText(text)}
+          onChangeText={(text) => {
+            setBodyText(text);
+          }}
         />
       </View>
-      <CircleButton onPress={() => handlePress(id, bodyText)}>
+      <CircleButton
+        onPress={async () => {
+          await handlePress(id, bodyText);
+        }}
+      >
         <Icon {...{ name: 'check', size: 40, color: '#fff' }} />
       </CircleButton>
     </KeyboardAvoidingView>

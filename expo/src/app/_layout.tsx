@@ -1,23 +1,25 @@
+import React from 'react';
+import { View, Text, Button, LogBox } from 'react-native';
 import { Stack } from 'expo-router';
 import ErrorBoundary from 'react-native-error-boundary';
-import { View, Text, Button } from 'react-native';
-import { LogBox } from 'react-native';
 import { useAtom } from 'jotai';
 import { openMenuAtom } from 'src/store/atom';
 import Menu from '@components/Menu';
 
 LogBox.ignoreAllLogs();
 
-const CustomFallback = (props: { error: Error; resetError: Function }) => {
-  console.log(props.error, props.resetError);
+type FallbackProps = { error: Error; resetError: () => void };
+
+const Fallback: React.FC<FallbackProps> = ({ error, resetError }) => {
+  console.log(error, resetError);
   return (
     <View style={{ backgroundColor: 'red', marginTop: 100, padding: 20 }}>
       <Text style={{ color: 'white' }}>Something happened!</Text>
-      <Text style={{ color: 'white' }}>{props.error.toString()}</Text>
+      <Text style={{ color: 'white' }}>{error.toString()}</Text>
       <Button
         onPress={() => {
           console.log('reset error');
-          props.resetError();
+          resetError();
         }}
         title={'Try again'}
       />
@@ -25,16 +27,15 @@ const CustomFallback = (props: { error: Error; resetError: Function }) => {
   );
 };
 
-const errorHandler = (error: Error, stackTrace: string) => {
-  /* Log the error to an error reporting service */
+const errorHandler = (error: Error, stackTrace: string): void => {
   console.error({ error, stackTrace });
 };
 
-const Layout = (): JSX.Element => {
+const Layout: React.FC = () => {
   const [openMenu] = useAtom(openMenuAtom);
 
   return (
-    <ErrorBoundary FallbackComponent={CustomFallback} onError={errorHandler}>
+    <ErrorBoundary FallbackComponent={Fallback} onError={errorHandler}>
       <Stack
         screenOptions={{
           headerStyle: {

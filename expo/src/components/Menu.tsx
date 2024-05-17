@@ -1,5 +1,6 @@
+import { useRef, useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, Animated, Easing } from 'react-native';
 import { Link } from 'expo-router';
 import { openMenuAtom } from 'src/store/atom';
 
@@ -17,11 +18,23 @@ const menuList = [
     href: '/test',
   },
 ];
-// TODO: Animationで数値が時間とともに変動するようにする。
-const menuWidth = '30%';
 
 const Menu: React.FC = () => {
   const [, setOpenMenu] = useAtom(openMenuAtom);
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  const animatedWidth = {
+    transform: [{ translateX: animatedValue }],
+  };
+
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 400,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
 
   return (
     <View
@@ -33,10 +46,11 @@ const Menu: React.FC = () => {
         flexDirection: 'row',
       }}
     >
-      <View
+      <Animated.View
         style={{
-          width: menuWidth,
+          ...animatedWidth,
           padding: 10,
+          flex: 1,
           paddingTop: 40,
           height: '100%',
           backgroundColor: '#eee',
@@ -50,7 +64,7 @@ const Menu: React.FC = () => {
             </TouchableOpacity>
           </Link>
         ))}
-      </View>
+      </Animated.View>
       <TouchableOpacity
         style={{
           flex: 1,
@@ -59,7 +73,15 @@ const Menu: React.FC = () => {
           opacity: 0.5,
           zIndex: 50,
         }}
-        onPress={() => setOpenMenu((v) => !v)}
+        onPress={() => {
+          setOpenMenu((v) => !v);
+          Animated.timing(animatedValue, {
+            toValue: 0,
+            duration: 400,
+            easing: Easing.ease,
+            useNativeDriver: true,
+          }).start();
+        }}
       />
     </View>
   );

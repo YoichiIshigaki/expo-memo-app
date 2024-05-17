@@ -46,7 +46,11 @@ const TextWithLink: React.FC<TextWithLinkProps> = ({ text, isLink, href }) => {
   return (
     <>
       {isLink ? (
-        <TouchableOpacity onPress={handlePress}>
+        <TouchableOpacity
+          onPress={async () => {
+            await handlePress();
+          }}
+        >
           <Text style={styles.isLinkText}>{text}</Text>
         </TouchableOpacity>
       ) : (

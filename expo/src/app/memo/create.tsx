@@ -7,7 +7,7 @@ import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db, auth } from '../../infra/firestore/firebaseConfig';
 import { useState } from 'react';
 
-const Create = (): JSX.Element => {
+const Create: React.FC = () => {
   const [bodyText, setBodyText] = useState('');
   const handlePress = async (): Promise<void> => {
     if (!auth.currentUser) return;
@@ -35,11 +35,17 @@ const Create = (): JSX.Element => {
           style={style.input}
           multiline
           autoFocus
-          onChangeText={(text) => setBodyText(text)}
+          onChangeText={(text) => {
+            setBodyText(text);
+          }}
           value={bodyText}
         />
       </View>
-      <CircleButton onPress={async () => await handlePress()}>
+      <CircleButton
+        onPress={async () => {
+          await handlePress();
+        }}
+      >
         <Icon {...{ name: 'check', size: 40, color: '#fff' }} />
       </CircleButton>
     </KeyboardAvoidingView>

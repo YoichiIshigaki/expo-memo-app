@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet, Image, View, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { type SetStateAction } from 'jotai';
 
 type SetAtom<Args extends unknown[], Result> = (...args: Args) => Result;
@@ -10,7 +10,7 @@ export type HamburgerToggleButtonProps = {
 const HamburgerToggleButton: React.FC<HamburgerToggleButtonProps> = ({
   setOpenMenu,
 }) => {
-  const handlePress = () => {
+  const handlePress = (): void => {
     console.log('toggle pressed');
     setOpenMenu((v) => !v);
   };

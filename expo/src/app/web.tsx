@@ -1,7 +1,7 @@
 import { WebViewComponent } from '@components/WebView';
 
-const web = () => {
-  return <WebViewComponent url={'https://expo.dev'} />;
+const Web: React.FC = () => {
+  return <WebViewComponent uri={'https://expo.dev'} />;
 };
 
-export default web;
+export default Web;

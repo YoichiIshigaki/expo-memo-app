@@ -12,7 +12,7 @@ const functionPath = {
   },
 };
 
-export const callFunction = async <T extends Object>(
+export const callFunction = async <T extends Record<string, unknown>>(
   pathname: string,
   init?: RequestInit,
 ): Promise<T> => {

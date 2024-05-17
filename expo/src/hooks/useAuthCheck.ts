@@ -14,6 +14,6 @@ export const useAuthCheck = (redirect = true): boolean => {
         isLogged.current = true;
       }
     });
-  }, [onAuthStateChanged, auth]);
+  }, [redirect]);
   return isLogged.current.valueOf();
 };

@@ -27,8 +27,8 @@ const Detail: React.FC = () => {
       setMemo(docToData(memoDoc.id, memoDoc.data() as MemoDoc));
     });
     return unsubscribe;
-  }, []);
-  const handlePress = () => {
+  }, [id]);
+  const handlePress = (): void => {
     // 編集画面に遷移
     router.push({ pathname: '/memo/edit', params: { id } });
   };
@@ -44,7 +44,7 @@ const Detail: React.FC = () => {
         </Text>
       </View>
       <ScrollView style={styles.memoBody}>
-        <TextBodyViewWithLink textBody={memo?.body_text || ''} />
+        <TextBodyViewWithLink textBody={memo?.body_text ?? ''} />
       </ScrollView>
       <CircleButton onPress={handlePress} style={{ top: 160 }}>
         <Icon {...{ name: 'pencil', size: 40, color: '#fff' }} />
