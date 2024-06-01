@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import { onSnapshot, doc } from 'firebase/firestore';
 import CircleButton from '@components/CircleButton';
-import Icon from '@components/icon';
+import Icon from '@components/Icon';
 import { TextBodyViewWithLink } from '@components/TextBodyViewWithLink';
 import { auth, db } from '../../infra/firestore/firebaseConfig';
 import {

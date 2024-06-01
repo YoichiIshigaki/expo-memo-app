@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList, Text, Button } from 'react-native';
 import { router } from 'expo-router';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
-import Icon from '@components/icon';
+import Icon from '@components/Icon';
 import MemoListItem from '@components/MemoListItem';
 import CircleButton from '@components/CircleButton';
 import {

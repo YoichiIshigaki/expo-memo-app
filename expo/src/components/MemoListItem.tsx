@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Link } from 'expo-router';
-import Icon from './icon';
+import Icon from '@components/Icon';
 import type { Memo } from '../infra/firestore/feature/memo';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../infra/firestore/firebaseConfig';
@@ -29,6 +29,7 @@ const MemoListItem = ({
     if (auth.currentUser === null) {
       console.log('not login');
     }
+    console.log('success share');
   };
 
   const handleDelete = (): void => {

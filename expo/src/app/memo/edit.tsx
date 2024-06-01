@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Alert } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
 import CircleButton from '@components/CircleButton';
-import Icon from '@components/icon';
+import Icon from '@components/Icon';
 import KeyboardAvoidingView from '@components/KeyboardAvoidingView';
 import { auth, db } from '../../infra/firestore/firebaseConfig';
 
