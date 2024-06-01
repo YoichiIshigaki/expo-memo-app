@@ -10,13 +10,13 @@ const CustomIcon = createIconSetFromIcoMoon(
   'icomoon.ttf',
 );
 
-type Props = {
+type IconProps = {
   name: string;
   size: number;
   color: string;
 };
 
-const Icon = (props: Props): JSX.Element | null => {
+const Icon = (props: IconProps): JSX.Element | null => {
   const [fontLoaded] = useFonts({
     icoMoon: fontData,
   });

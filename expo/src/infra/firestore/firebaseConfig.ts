@@ -13,6 +13,4 @@ const auth = initializeAuth(app, {
 
 const db = getFirestore(app);
 
-export const CHIIKAWA_USAGI_URL = process.env.EXPO_PUBLIC_CHIIKAWA_USAGI;
-
 export { app, auth, db };

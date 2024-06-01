@@ -1,6 +1,6 @@
 import { View, TextInput, StyleSheet, Alert } from 'react-native';
 import CircleButton from '../../components/CircleButton';
-import Icon from '../../components/Icon';
+import Icon from '@components/Icon';
 import KeyboardAvoidingView from '../../components/KeyboardAvoidingView';
 import { router } from 'expo-router';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
