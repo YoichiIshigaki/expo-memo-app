@@ -11,7 +11,6 @@ const HamburgerToggleButton: React.FC<HamburgerToggleButtonProps> = ({
   setOpenMenu,
 }) => {
   const handlePress = (): void => {
-    console.log('toggle pressed');
     setOpenMenu((v) => !v);
   };
 
@@ -19,9 +18,7 @@ const HamburgerToggleButton: React.FC<HamburgerToggleButtonProps> = ({
     <TouchableOpacity onPress={handlePress}>
       <Image
         style={styles.image}
-        source={{
-          uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png',
-        }}
+        source={require('../../assets/drawerWhite.png')}
       />
     </TouchableOpacity>
   );
