@@ -63,6 +63,9 @@ const Menu: React.FC = () => {
 
   useEffect(() => {
     Animated.timing(animatedValue, animatedConfig).start();
+    return () => {
+      setOpenMenu(!openMenu);
+    };
   }, [animatedValue, animatedConfig]);
 
   return (
