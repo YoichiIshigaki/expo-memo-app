@@ -7,9 +7,11 @@ import {
   Animated,
   Easing,
   useWindowDimensions,
+  StyleSheet,
 } from 'react-native';
 import { Link } from 'expo-router';
 import Icon from '@components/Icon';
+import AvatarImage from '@components/AvatarImage';
 
 import { openMenuAtom } from 'src/store/atom';
 
@@ -34,7 +36,7 @@ const Menu: React.FC = () => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const menuRef = useRef<View | null>(null);
 
-  const menuWidth = width / 2;
+  const menuWidth = width * (6 / 10);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const animatedConfig = {
@@ -66,7 +68,7 @@ const Menu: React.FC = () => {
     return () => {
       setOpenMenu(!openMenu);
     };
-  }, [animatedValue, animatedConfig]);
+  }, [animatedValue, animatedConfig, setOpenMenu, openMenu]);
 
   return (
     <View
@@ -78,19 +80,13 @@ const Menu: React.FC = () => {
     >
       <Animated.View
         ref={menuRef}
-        style={{
-          ...animatedStyle,
-          padding: 10,
-          margin: 0,
-          flex: 1,
-          paddingTop: 20,
-          height: '100%',
-          width: menuWidth,
-          left: -menuWidth,
-          backgroundColor: '#eee',
-          zIndex: 100,
-        }}
+        style={[
+          animatedStyle,
+          { left: -menuWidth, width: menuWidth },
+          styles.menu,
+        ]}
       >
+        <AvatarImage />
         <TouchableOpacity onPress={handlePress}>
           <Icon {...{ name: 'delete', size: 32, color: '#b0b0b0' }} />
         </TouchableOpacity>
@@ -110,19 +106,29 @@ const Menu: React.FC = () => {
           </Link>
         ))}
       </Animated.View>
-      <TouchableOpacity
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          backgroundColor: '#999',
-          opacity: 0.5,
-          zIndex: 50,
-        }}
-        onPress={handlePress}
-      />
+      <TouchableOpacity style={styles.backdrop} onPress={handlePress} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  menu: {
+    paddingTop: 20,
+    padding: 10,
+    margin: 0,
+    height: '100%',
+    flex: 1,
+    backgroundColor: '#fff',
+    zIndex: 100,
+  },
+  backdrop: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    backgroundColor: '#999',
+    opacity: 0.5,
+    zIndex: 50,
+  },
+});
 
 export default Menu;
