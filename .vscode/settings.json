@@ -1,0 +1,5 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "amazonQ.telemetry": false
+  // "eslint.workingDirectories": ["./expo", "./functions", "./web"]
+}
