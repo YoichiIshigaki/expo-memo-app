@@ -12,7 +12,7 @@ import {
 } from '../../infra/firestore/feature/memo';
 import { db, auth } from '../../infra/firestore/firebaseConfig';
 import { useSetupNavigation } from '../../hooks/useSetupNavigation';
-import { callFunction } from '../../infra/function/client';
+import { callFunction } from '../../infra/function/apiClient';
 
 const ComponentWithError: React.FC = () => {
   useEffect(() => {
