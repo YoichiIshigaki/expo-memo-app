@@ -86,7 +86,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.memoapp"
+    namespace "com.yoichirocking.www"
     defaultConfig {
         applicationId 'com.yoichirocking.www'
         minSdkVersion rootProject.ext.minSdkVersion
