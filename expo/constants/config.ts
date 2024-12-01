@@ -1,6 +1,6 @@
 import get from 'lodash.get';
 import constants from 'expo-constants';
-import { FirebaseOptions } from 'firebase/app';
+import { type FirebaseOptions } from 'firebase/app';
 
 const firebaseConfig: FirebaseOptions = get(
   constants,
